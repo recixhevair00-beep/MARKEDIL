@@ -64,7 +64,7 @@
         <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Markedil.com © 2026</div>
       </div>
 
-      <!-- Modulo di Login (Default) -->
+      <!-- Modulo di Login -->
       <div class="lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-[#FAFAFA]">
         <div class="card-modern w-full max-w-md p-8 lg:p-10">
           <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Accedi a Markedil</h2>
@@ -157,7 +157,7 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Email</label>
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Email Aziendale o Personale</label>
           <input type="email" id="regEmail" placeholder="nome@azienda.it" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
         </div>
         <div>
@@ -169,13 +169,28 @@
           <input type="password" id="regPasswordConfirm" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
         </div>
         <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-4">
-          Registrati e Accedi Subito
+          Registrati e Invia Email di Conferma
         </button>
       </form>
 
       <div class="mt-6 text-center border-t border-slate-100 pt-4">
         <p class="text-xs text-slate-500">Hai già un account? <button onclick="showView('loginView')" class="text-black font-bold hover:underline">Accedi qui</button></p>
       </div>
+    </div>
+  </div>
+
+  <!-- VISTA 1.6: ATTESA CONFERMA EMAIL -->
+  <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA] w-full">
+    <div class="card-modern w-full max-w-md p-8 text-center space-y-4">
+      <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-black text-xl">
+        <i class="fa-solid fa-envelope-circle-check"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900">Controlla la tua casella email</h2>
+      <p class="text-sm text-slate-500 leading-relaxed">Ti abbiamo inviato un'email con il link di conferma ufficiale. Clicca sul link nell'email per attivare il profilo ed entrare nella bacheca.</p>
+      
+      <button onclick="showView('loginView')" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
+        Torna al Login
+      </button>
     </div>
   </div>
 
@@ -248,7 +263,6 @@
       <h3 class="text-xl font-bold text-slate-900 mb-1">Cosa vuoi pubblicare?</h3>
       <p class="text-xs text-slate-500 mb-6">Scegli tra un bando tecnico di subappalto o un post / annuncio.</p>
 
-      <!-- Selettore Tipo -->
       <div class="grid grid-cols-2 gap-3 mb-6">
         <button type="button" id="tabBandoBtn" onclick="switchPubType('bando')" class="py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-black text-white border-black">
           <i class="fa-solid fa-file-lines mr-1.5"></i> Bando Appalto
@@ -305,7 +319,7 @@
     </div>
   </div>
 
-  <!-- VISTA 3: PROFILO UTENTE E SCHEDA VALUTAZIONI IN 5 PUNTI (QUALITÀ, VELOCITÀ, ECC.) -->
+  <!-- VISTA 3: PROFILO UTENTE E SCHEDA VALUTAZIONI -->
   <div id="profileView" class="hidden w-full">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -325,7 +339,6 @@
         <span id="userCategoryDisplay" class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full">Categoria</span>
       </div>
 
-      <!-- SCHEDA VALUTAZIONI OPERATIVE (5 PUNTI) -->
       <div class="card-modern p-6 max-w-md mx-auto space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 class="font-bold text-slate-900 text-sm">Valutazione Prestazioni</h3>
@@ -383,38 +396,51 @@
         return;
       }
 
-      const { error } = await _supabase.from('profiles').insert([{ email: email, category: category }]);
+      // Registrazione con Supabase Auth e invio email
+      const { data: authData, error: authError } = await _supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: { data: { category: category } }
+      });
 
-      if (error) {
-        alert("Errore durante la registrazione: " + error.message);
+      if (authError) {
+        alert("Errore durante la registrazione: " + authError.message);
         return;
       }
 
-      loginUserSession(email, category);
+      // Salvataggio nel database profiles
+      await _supabase.from('profiles').insert([{ email: email, category: category }]);
+
+      showView('verifyView');
     }
 
     async function handleLogin(event) {
       event.preventDefault();
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-      
-      const { data: profiles, error } = await _supabase
-        .from('profiles')
-        .select('*')
-        .ilike('email', email);
+      const password = document.getElementById('loginPassword').value;
 
-      if (error || !profiles || profiles.length === 0) {
-        alert("Utente non trovato o email non registrata nel database.");
+      const { data, error } = await _supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        alert("Errore login: " + error.message);
         return;
       }
 
-      const profile = profiles[0];
-      loginUserSession(profile.email, profile.category || 'impresa');
+      const { data: profile } = await _supabase
+        .from('profiles')
+        .select('*')
+        .ilike('email', email)
+        .maybeSingle();
+
+      const userCat = profile ? profile.category : 'impresa';
+      loginUserSession(email, userCat);
     }
 
     function loginUserSession(email, category) {
       currentUser = { email: email, category: category };
-      localStorage.setItem('markedil_user', JSON.stringify(currentUser));
-
       document.getElementById('userEmailDisplay').innerText = email;
       document.getElementById('userNameDisplay').innerText = email.split('@')[0].toUpperCase();
       document.getElementById('userCategoryDisplay').innerText = category.toUpperCase();
@@ -505,7 +531,6 @@
                 <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Pagamento</span> <span class="font-bold text-slate-800">${bando.payment_terms || '-'}</span></div>
               </div>
             ` : ''}
-            <!-- Valutazione Prestazioni (5 Punti, Default 0.0) -->
             <div class="flex items-center justify-between pt-2 text-xs text-slate-500 border-t border-slate-50">
               <span class="flex items-center gap-1 font-medium text-slate-500">
                 <i class="fa-solid fa-shield text-slate-400"></i> Valutazione Prestazioni (5 Criteri)
@@ -520,8 +545,8 @@
       container.innerHTML = html;
     }
 
-    function handleLogout() {
-      localStorage.removeItem('markedil_user');
+    async function handleLogout() {
+      await _supabase.auth.signOut();
       currentUser = null;
       showView('loginView');
     }
@@ -529,6 +554,7 @@
     function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('loginView').classList.add('hidden');
+      document.getElementById('verifyView').classList.add('hidden');
       document.getElementById('dashboardView').classList.add('hidden');
       document.getElementById('profileView').classList.add('hidden');
       document.getElementById(viewId).classList.remove('hidden');
@@ -540,16 +566,17 @@
     }
     function closeBandoModal() { document.getElementById('bandoModal').classList.add('hidden'); }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       loadBandi();
-      const savedUser = localStorage.getItem('markedil_user');
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        document.getElementById('userEmailDisplay').innerText = currentUser.email;
-        document.getElementById('userNameDisplay').innerText = currentUser.email.split('@')[0].toUpperCase();
-        document.getElementById('userCategoryDisplay').innerText = currentUser.category.toUpperCase();
-        document.getElementById('userAvatar').innerText = currentUser.email.substring(0, 2).toUpperCase();
-        showView('dashboardView');
+      const { data: { session } } = await _supabase.auth.getSession();
+      if (session) {
+        const { data: profile } = await _supabase
+          .from('profiles')
+          .select('*')
+          .ilike('email', session.user.email)
+          .maybeSingle();
+
+        loginUserSession(session.user.email, profile ? profile.category : 'impresa');
       }
     });
   </script>
