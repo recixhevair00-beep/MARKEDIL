@@ -20,8 +20,7 @@
         <span class="font-bold text-xl tracking-tight text-slate-900">Markedil<span class="text-blue-700">.com</span></span>
       </div>
       <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-lg text-sm transition shadow-sm flex items-center gap-2">
-        <i class="fa-solid fa-plus">
-        </i> Pubblica Bando
+        <i class="fa-solid fa-plus"></i> Pubblica Bando
       </button>
     </div>
   </header>
@@ -33,60 +32,48 @@
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold">
-          <i class="fa-solid fa-user-gear">
-          </i>
+          <i class="fa-solid fa-user-gear"></i>
         </div>
-        <input type="text" placeholder="Pubblica un aggiornamento cantiere o foto..." class="w-full bg-slate-100 border-none rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+        <input type="text" placeholder="Pubblica un aggiornamento o seleziona una modalità..." class="w-full bg-slate-100 border-none rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
       </div>
       <div class="flex items-center justify-between pt-3 border-t border-slate-100 text-sm font-medium">
         <button class="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition">
-          <i class="fa-solid fa-file-contract">
-          </i> Pubblica Bando
+          <i class="fa-solid fa-file-contract"></i> Pubblica Bando
         </button>
         <button class="flex items-center gap-2 text-slate-600 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition">
-          <i class="fa-solid fa-image">
-          </i> Foto Cantiere
+          <i class="fa-solid fa-image"></i> Foto / Post
         </button>
       </div>
     </div>
 
-    <!-- FEED SOCIAL (ANTEPRIMA POST) -->
-    <div class="space-y-4">
-      <!-- Scheda Post Demo -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-900 font-bold flex items-center justify-center">
-              ED
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-900 text-sm">Edilizia Generale SRL</h4>
-              <p class="text-xs text-slate-500">Bergamo • 2 ore fa</p>
-            </div>
+    <!-- SEZIONE ESEMPIO DI PUBBLICAZIONE (GUIDA VISIVA) -->
+    <div class="mb-6 border-2 border-dashed border-blue-200 bg-blue-50/50 rounded-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Esempio di Post Pubblicato</span>
+        <span class="text-xs text-slate-400">Anteprima dimostrativa</span>
+      </div>
+      
+      <!-- Scheda Esempio -->
+      <div class="bg-white rounded-lg p-3 border border-slate-200 opacity-90">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-8 h-8 rounded-full bg-blue-900 text-white font-bold text-xs flex items-center justify-center">
+            EX
           </div>
-          <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Bando Subappalto</span>
+          <div>
+            <h5 class="font-bold text-slate-900 text-xs">Nome Azienda (Esempio)</h5>
+            <p class="text-[10px] text-slate-400">Città • Adesso</p>
+          </div>
         </div>
-        
-        <p class="text-sm text-slate-700 mb-3">Cercasi squadra per posa cartongesso e tinteggiatura per cantiere residenziale. Circa 450 mq totali. Inizio lavori previsto a breve.</p>
-        
-        <div class="bg-slate-50 border border-slate-100 rounded-lg p-3 text-xs text-slate-600 grid grid-cols-2 gap-2 mb-3">
-          <div><strong>Metratura:</strong> 450 mq</div>
-          <div><strong>Luogo:</strong> Milano Nord</div>
-          <div><strong>Inizio:</strong> 15/09/2026</div>
-          <div><strong>Pagamenti:</strong> 30/60 gg</div>
-        </div>
-
-        <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500 font-medium">
-          <button class="hover:text-blue-700">
-            <i class="fa-regular fa-comment">
-            </i> Rispondi al bando
-          </button>
-          <button class="hover:text-blue-700">
-            <i class="fa-solid fa-share">
-            </i> Condividi
-          </button>
+        <p class="text-xs text-slate-600 mb-2">Qui apparirà il testo del tuo post o i dettagli del bando (es. metratura, date di cantiere e termini di pagamento).</p>
+        <div class="w-32 h-20 bg-slate-100 rounded border border-slate-200 flex items-center justify-center text-slate-400 text-[10px]">
+          [Foto ridotta]
         </div>
       </div>
+    </div>
+
+    <!-- FEED VUOTO -->
+    <div class="text-center py-8">
+      <p class="text-slate-400 text-sm">Nessun post pubblicato al momento. Sii il primo a pubblicare un bando o un aggiornamento!</p>
     </div>
 
   </main>
