@@ -6,6 +6,8 @@
   <title>Markedil.com - Network Professionale Edile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     body { font-family: 'Inter', sans-serif; background-color: #FAFAFA; }
@@ -66,7 +68,7 @@
       <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Markedil.com © 2026</div>
     </div>
 
-    <!-- Modulo con Doppia Password -->
+    <!-- Modulo di Registrazione -->
     <div class="lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-[#FAFAFA]">
       <div class="card-modern w-full max-w-md p-8 lg:p-10">
         <div class="lg:hidden flex justify-center mb-6">
@@ -75,10 +77,10 @@
         <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Registrati a Markedil</h2>
         <p class="text-center text-sm text-slate-500 mb-6">Inserisci i dati e verifica la tua email.</p>
         
-        <form onsubmit="event.preventDefault(); showVerifyStep();" class="space-y-4">
+        <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Categoria Professionale</label>
-            <select class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
+            <select id="regCategory" class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700" required>
               <option value="">Seleziona...</option>
               <option value="impresa">Impresa Edile / Artigiano</option>
               <option value="ingegnere">Ingegnere / Studio Ingegneria</option>
@@ -91,15 +93,15 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Email Aziendale o Personale</label>
-            <input type="email" placeholder="nome@azienda.it" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            <input type="email" id="regEmail" placeholder="nome@azienda.it" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
-            <input type="password" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            <input type="password" id="regPassword" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Ripeti Password</label>
-            <input type="password" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            <input type="password" id="regPasswordConfirm" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
           <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-4">
             Continua e ricevi codice email
@@ -118,7 +120,7 @@
       <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua email</h2>
       <p class="text-sm text-slate-500 mb-6">Abbiamo inviato un codice di conferma a 6 cifre al tuo indirizzo email.</p>
       
-      <form onsubmit="event.preventDefault(); showView('dashboardView');" class="space-y-5">
+      <form onsubmit="event.preventDefault(); showView('dashboardView'); loadBandi();" class="space-y-5">
         <div class="flex justify-center gap-2">
           <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="4">
           <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="8">
@@ -147,7 +149,7 @@
             <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
               <i class="fa-regular fa-user text-lg"></i> Mio Profilo
             </button>
-            <button class="btn-black font-medium px-5 py-2.5 text-sm flex items-center gap-2">
+            <button onclick="openBandoModal()" class="btn-black font-medium px-5 py-2.5 text-sm flex items-center gap-2">
               <i class="fa-solid fa-plus"></i> Pubblica
             </button>
           </div>
@@ -155,31 +157,34 @@
       </header>
 
       <main class="max-w-2xl mx-auto px-4 py-8 space-y-6">
-        <div class="card-modern p-5">
+        <div class="card-modern p-5 cursor-pointer hover:border-slate-400 transition-all" onclick="openBandoModal()">
           <div class="flex gap-4">
             <div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-400 border border-slate-200">
               <i class="fa-solid fa-pen"></i>
             </div>
-            <div class="w-full">
-              <input type="text" placeholder="Condividi un aggiornamento, un appalto o un bando..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
+            <div class="w-full pointer-events-none">
+              <input type="text" placeholder="Pubblica un bando di appalto/subappalto o un aggiornamento..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
               <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button class="flex items-center gap-2 text-black hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
+                <span class="flex items-center gap-2 text-black px-3 py-1.5 rounded-md text-sm font-semibold">
                   <i class="fa-solid fa-file-lines"></i> Bando Appalto / Subappalto
-                </button>
-                <button class="flex items-center gap-2 text-slate-500 hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
+                </span>
+                <span class="flex items-center gap-2 text-slate-500 px-3 py-1.5 rounded-md text-sm font-semibold">
                   <i class="fa-solid fa-camera"></i> Foto / Post
-                </button>
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="card-modern p-12 text-center">
-          <div class="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-100">
-            <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
+        <!-- LISTA DINAMICA DEI BANDI DAL DATABASE -->
+        <div id="bandiContainer" class="space-y-4">
+          <div class="card-modern p-12 text-center" id="emptyBandiState">
+            <div class="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-100">
+              <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
+            </div>
+            <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
+            <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
           </div>
-          <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
-          <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
         </div>
       </main>
     </div>
@@ -204,6 +209,61 @@
     </footer>
   </div>
 
+  <!-- MODALE INTERATTIVO PER PUBBLICAZIONE BANDO -->
+  <div id="bandoModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+    <div class="card-modern w-full max-w-lg p-6 lg:p-8 bg-white relative">
+      <button onclick="closeBandoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-black">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-xl font-bold text-slate-900 mb-1">Pubblica Bando di Appalto</h3>
+      <p class="text-xs text-slate-500 mb-6">Inserisci i dettagli tecnici per trovare professionisti o imprese qualificate.</p>
+
+      <form id="bandoForm" onsubmit="handlePublishBando(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Titolo / Oggetto dell'Appalto</label>
+          <input type="text" id="bandoTitle" placeholder="Es. Posa cartongesso e isolamento termico" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Metratura (mq)</label>
+            <input type="text" id="bandoMq" placeholder="Es. 450 mq" class="w-full input-modern px-3.5 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Zona / Località</label>
+            <input type="text" id="bandoLocation" placeholder="Es. Bergamo / Milano Nord" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Data Inizio Cantiere</label>
+            <input type="date" id="bandoDate" class="w-full input-modern px-3.5 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Termini di Pagamento</label>
+            <select id="bandoPayment" class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
+              <option value="30 / 60 gg data fattura">30 / 60 gg data fattura</option>
+              <option value="Stato Avanzamento Lavori (SAL)">Stato Avanzamento Lavori (SAL)</option>
+              <option value="Rimessa diretta">Rimessa diretta</option>
+              <option value="Concordato in trattativa">Concordato in trattativa</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Descrizione Dettagliata</label>
+          <textarea rows="3" id="bandoDesc" placeholder="Specifica i requisiti tecnici, capitolato o richieste particolari..." class="w-full input-modern px-3.5 py-2.5 text-sm"></textarea>
+        </div>
+
+        <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-2">
+          Pubblica Ufficialmente Bando
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- VISTA 3: PROFILO PERSONALE -->
   <div id="profileView" class="hidden w-full">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
@@ -224,10 +284,10 @@
       
       <div class="md:col-span-1 space-y-6">
         <div class="card-modern p-6 text-center">
-          <div class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">MR</div>
-          <h2 class="text-lg font-bold text-slate-900 leading-tight mb-2">Marco Rossi SRL</h2>
-          <span class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">Impresa Edile</span>
-          <p class="text-xs text-slate-500 flex items-center justify-center gap-1.5"><i class="fa-solid fa-location-dot"></i> Milano, IT</p>
+          <div id="userAvatar" class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">MR</div>
+          <h2 id="userNameDisplay" class="text-lg font-bold text-slate-900 leading-tight mb-2">Utente Markedil</h2>
+          <span id="userCategoryDisplay" class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">Professionista</span>
+          <p class="text-xs text-slate-500 flex items-center justify-center gap-1.5"><i class="fa-solid fa-location-dot"></i> Italia</p>
         </div>
 
         <div class="card-modern p-6">
@@ -250,34 +310,133 @@
         <h3 class="font-bold text-slate-900 text-lg mb-5">Le tue attività</h3>
         <div class="border-2 border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-5 mb-4 relative overflow-hidden">
           <div class="flex items-center justify-between mb-4">
-            <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Esempio</span>
-            <span class="text-xs text-slate-400 font-medium">Anteprima</span>
+            <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Account Connesso</span>
+            <span id="userEmailDisplay" class="text-xs text-slate-500 font-medium">email@azienda.it</span>
           </div>
-          <div class="card-modern p-5 opacity-90">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-full bg-black text-white text-xs font-bold flex items-center justify-center">MR</div>
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm">Marco Rossi SRL</h4>
-                <p class="text-[11px] text-slate-500 font-medium">Impresa Edile • Ora</p>
-              </div>
-            </div>
-            <p class="text-sm text-slate-700 mb-4 leading-relaxed">Lo spazio per i tuoi aggiornamenti, foto dal cantiere o per pubblicare i dettagli di un nuovo bando.</p>
-            <div class="w-full h-40 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-              <i class="fa-regular fa-image text-3xl mb-2"></i>
-              <span class="text-sm font-medium">Spazio per foto/allegato</span>
-            </div>
+          <div class="card-modern p-5">
+            <p class="text-sm text-slate-700 leading-relaxed">Il tuo account è regolarmente registrato e collegato al database cloud di Markedil.com.</p>
           </div>
         </div>
       </div>
     </main>
   </div>
 
+  <!-- SCRIPT DI CONFIGURAZIONE E COLLEGAMENTO DATABASE SUPABASE -->
   <script>
-    function showVerifyStep() {
+    // Configurazione Supabase
+    const SUPABASE_URL = "https://nqrceejgeskpwtwceily.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable__VCJUmPmC_sw70hfxFw9KA_ap15YTYz"; 
+    
+    // Inizializzazione client Supabase
+    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentUser = null;
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      const category = document.getElementById('regCategory').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+
+      if (password !== passwordConfirm) {
+        alert("Le password non coincidono!");
+        return;
+      }
+
+      // Salvataggio nel database tabella profiles
+      const { data, error } = await _supabase
+        .from('profiles')
+        .insert([{ email: email, category: category }]);
+
+      if (error) {
+        console.error("Errore di registrazione:", error.message);
+        alert("Errore durante la registrazione nel database: " + error.message);
+        return;
+      }
+
+      currentUser = { email, category };
+      
+      // Aggiorna la vista profilo con i dati reali
+      document.getElementById('userEmailDisplay').innerText = email;
+      document.getElementById('userNameDisplay').innerText = email.split('@')[0].toUpperCase();
+      document.getElementById('userCategoryDisplay').innerText = category.toUpperCase();
+      document.getElementById('userAvatar').innerText = email.substring(0, 2).toUpperCase();
+
+      // Passa alla verifica email
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('verifyView').classList.remove('hidden');
       window.scrollTo(0, 0);
     }
+
+    async function handlePublishBando(event) {
+      event.preventDefault();
+      const title = document.getElementById('bandoTitle').value;
+      const mq = document.getElementById('bandoMq').value;
+      const location = document.getElementById('bandoLocation').value;
+      const start_date = document.getElementById('bandoDate').value;
+      const payment_terms = document.getElementById('bandoPayment').value;
+      const description = document.getElementById('bandoDesc').value;
+      const category = currentUser ? currentUser.category : 'impresa';
+
+      // Salvataggio bando nel database tabella bandi
+      const { data, error } = await _supabase
+        .from('bandi')
+        .insert([{ title, category, mq, location, start_date, payment_terms, description }]);
+
+      if (error) {
+        console.error("Errore pubblicazione bando:", error.message);
+        alert("Errore durante la pubblicazione del bando: " + error.message);
+        return;
+      }
+
+      alert("Bando pubblicato con successo nel database!");
+      closeBandoModal();
+      document.getElementById('bandoForm').reset();
+      loadBandi();
+    }
+
+    async function loadBandi() {
+      const { data: bandi, error } = await _supabase
+        .from('bandi')
+        .select('*')
+        .order('id', { ascending: false });
+
+      const container = document.getElementById('bandiContainer');
+      
+      if (error || !bandi || bandi.length === 0) {
+        return; // Lascia lo stato vuoto se non ci sono bandi
+      }
+
+      let html = '';
+      bandi.forEach(bando => {
+        html += `
+          <div class="card-modern p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Bando Appalto</span>
+              <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-location-dot"></i> ${bando.location || 'N/D'}</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-lg mb-1">${bando.title}</h3>
+              <p class="text-xs text-slate-500">${bando.description || 'Nessuna descrizione aggiuntiva.'}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs">
+              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Metratura</span> <span class="font-bold text-slate-800">${bando.mq || '-'}</span></div>
+              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Inizio Cantiere</span> <span class="font-bold text-slate-800">${bando.start_date || '-'}</span></div>
+              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Pagamento</span> <span class="font-bold text-slate-800">${bando.payment_terms || '-'}</span></div>
+            </div>
+            <div class="flex justify-between items-center pt-1">
+              <span class="text-xs text-slate-500 font-medium">Categoria: ${bando.category}</span>
+              <button onclick="alert('Contatto inviato al committente')" class="btn-black text-xs font-semibold px-4 py-2">
+                Candidatevi / Offerta
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
     function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('verifyView').classList.add('hidden');
@@ -286,6 +445,17 @@
       document.getElementById(viewId).classList.remove('hidden');
       window.scrollTo(0, 0);
     }
+    function openBandoModal() {
+      document.getElementById('bandoModal').classList.remove('hidden');
+    }
+    function closeBandoModal() {
+      document.getElementById('bandoModal').classList.add('hidden');
+    }
+
+    // Carica i bandi all'avvio se si passa alla dashboard
+    window.addEventListener('DOMContentLoaded', () => {
+      loadBandi();
+    });
   </script>
 
 </body>
