@@ -254,23 +254,18 @@
         return;
       }
 
-      // Registrazione utente senza attesa email
-      const { data: authData, error: authError } = await _supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: { data: { category: category } }
-      });
+      // Salvataggio diretto nel database profiles senza blocco email
+      const { error } = await _supabase.from('profiles').insert([{ email: email, category: category }]);
 
-      if (authError) {
-        alert("Errore durante la registrazione: " + authError.message);
+      if (error) {
+        alert("Errore durante la registrazione: " + error.message);
         return;
       }
 
-      // Salvataggio nel database profiles
-      await _supabase.from('profiles').insert([{ email: email, category: category }]);
-
-      // Imposta utente corrente e passa subito alla dashboard
+      // Imposta utente corrente in memoria locale e passa alla dashboard
       currentUser = { email: email, category: category };
+      localStorage.setItem('markedil_user', JSON.stringify(currentUser));
+
       document.getElementById('userEmailDisplay').innerText = email;
       document.getElementById('userNameDisplay').innerText = email.split('@')[0].toUpperCase();
       document.getElementById('userCategoryDisplay').innerText = category.toUpperCase();
@@ -336,8 +331,8 @@
       container.innerHTML = html;
     }
 
-    async function handleLogout() {
-      await _supabase.auth.signOut();
+    function handleLogout() {
+      localStorage.removeItem('markedil_user');
       currentUser = null;
       showView('authView');
     }
@@ -352,14 +347,11 @@
     function openBandoModal() { document.getElementById('bandoModal').classList.remove('hidden'); }
     function closeBandoModal() { document.getElementById('bandoModal').classList.add('hidden'); }
 
-    window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', () => {
       loadBandi();
-      const { data: { session } } = await _supabase.auth.getSession();
-      if (session) {
-        currentUser = { 
-          email: session.user.email, 
-          category: session.user.user_metadata?.category || 'impresa' 
-        };
+      const savedUser = localStorage.getItem('markedil_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
         document.getElementById('userEmailDisplay').innerText = currentUser.email;
         document.getElementById('userNameDisplay').innerText = currentUser.email.split('@')[0].toUpperCase();
         document.getElementById('userCategoryDisplay').innerText = currentUser.category.toUpperCase();
