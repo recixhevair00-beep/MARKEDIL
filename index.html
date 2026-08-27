@@ -19,9 +19,16 @@
         </div>
         <span class="font-bold text-xl tracking-tight text-slate-900">Markedil<span class="text-blue-700">.com</span></span>
       </div>
-      <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-lg text-sm transition shadow-sm flex items-center gap-2">
-        <i class="fa-solid fa-plus"></i> Pubblica Bando
-      </button>
+      
+      <div class="flex items-center gap-3">
+        <!-- PULSANTE LOGIN / REGISTRAZIONE -->
+        <button onclick="openAuthModal()" class="text-slate-600 hover:text-blue-700 font-semibold px-3 py-2 text-sm transition flex items-center gap-1.5">
+          <i class="fa-regular fa-user"></i> Accedi / Registrati
+        </button>
+        <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-lg text-sm transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Pubblica Bando
+        </button>
+      </div>
     </div>
   </header>
 
@@ -46,14 +53,13 @@
       </div>
     </div>
 
-    <!-- SEZIONE ESEMPIO DI PUBBLICAZIONE (GUIDA VISIVA) -->
+    <!-- SEZIONE ESEMPIO DI PUBBLICAZIONE -->
     <div class="mb-6 border-2 border-dashed border-blue-200 bg-blue-50/50 rounded-xl p-4">
       <div class="flex items-center justify-between mb-2">
         <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Esempio di Post Pubblicato</span>
         <span class="text-xs text-slate-400">Anteprima dimostrativa</span>
       </div>
       
-      <!-- Scheda Esempio -->
       <div class="bg-white rounded-lg p-3 border border-slate-200 opacity-90">
         <div class="flex items-center gap-3 mb-2">
           <div class="w-8 h-8 rounded-full bg-blue-900 text-white font-bold text-xs flex items-center justify-center">
@@ -61,7 +67,7 @@
           </div>
           <div>
             <h5 class="font-bold text-slate-900 text-xs">Nome Azienda (Esempio)</h5>
-            <p class="text-[10px] text-slate-400">Città • Adesso</p>
+            <p class="text-[10px] text-slate-400">Bergamo • Impresa Edile • Adesso</p>
           </div>
         </div>
         <p class="text-xs text-slate-600 mb-2">Qui apparirà il testo del tuo post o i dettagli del bando (es. metratura, date di cantiere e termini di pagamento).</p>
@@ -77,6 +83,80 @@
     </div>
 
   </main>
+
+  <!-- MODAL / FINESTRA REGISTRAZIONE E LOGIN -->
+  <div id="authModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden flex items-center justify-center z-50 px-4">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 w-full max-w-md p-6 relative">
+      
+      <!-- Tasto Chiusura -->
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Titolo Modal -->
+      <div class="mb-5 text-center">
+        <h3 class="text-xl font-bold text-slate-900">Unisciti a Markedil</h3>
+        <p class="text-xs text-slate-500 mt-1">Crea il tuo profilo professionale o accedi</p>
+      </div>
+
+      <!-- Form Registrazione -->
+      <form onsubmit="event.preventDefault();" class="space-y-4">
+        
+        <!-- Selezione Categoria -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tipo di Utente / Categoria</label>
+          <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <option value="">Seleziona la tua categoria...</option>
+            <option value="impresa">Impresa Edile / Artigiano</option>
+            <option value="ingegnere">Ingegnere</option>
+            <option value="architetto">Architetto / Geometra</option>
+            <option value="fornitore">Fornitore Materiali / Magazzino</option>
+            <option value="privato">Privato / Committente</option>
+          </select>
+        </div>
+
+        <!-- Nome Azienda / Professionista -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Ragione Sociale o Nome Cognome</label>
+          <input type="text" placeholder="Es. Edilizia Rossi SRL o Mario Rossi" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email aziendale o personale</label>
+          <input type="email" placeholder="nome@azienda.it" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
+          <input type="password" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+
+        <!-- Pulsante Invia -->
+        <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-lg text-sm transition shadow-sm mt-2">
+          Crea Account
+        </button>
+
+      </form>
+
+      <!-- Footer Modal -->
+      <div class="mt-4 text-center border-t border-slate-100 pt-3">
+        <p class="text-xs text-slate-500">Hai già un account? <a href="#" class="text-blue-700 font-bold hover:underline">Accedi qui</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT JAVASCRIPT PER APRIRE/CHIUDERE LA FINESTRA -->
+  <script>
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+  </script>
 
 </body>
 </html>
