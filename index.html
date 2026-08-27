@@ -108,7 +108,7 @@
       </div>
     </div>
 
-    <!-- SEZIONE "PERCHÉ NASCE MARKEDIL" IN FONDO ALLA HOME -->
+    <!-- SEZIONE MANIFESTO -->
     <section class="bg-white border-t border-slate-200 py-16 px-6 lg:px-24">
       <div class="max-w-4xl mx-auto space-y-8">
         <div class="text-center max-w-2xl mx-auto">
@@ -126,7 +126,7 @@
             </div>
             <h4 class="font-bold text-slate-900 text-base">Dal cantiere alla rete digitale</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              Markedil nasce dall'esperienza diretta sul campo nel settore edile lombardo. Trovarsi nella condizione di dover cercare subappaltatori affidabili, maestranze qualificate o studi tecnici in tempi stretti ha fatto emergere un limite chiaro: la frammentazione dei contatti. Trovare il partner giusto richiedeva troppo tempo perso al telefono.
+              Markedil nasce dall'esperienza diretta sul campo nel settore edile lombardo. Trovarsi nella condizione di dover cercare subappaltatori affidabili, maestranze qualificate o studi tecnici in tempi stretti ha fatto emergere un limite chiaro: la frammentazione dei contatti.
             </p>
           </div>
 
@@ -136,7 +136,7 @@
             </div>
             <h4 class="font-bold text-slate-900 text-base">Trasparenza e contatto diretto</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              L'idea è semplice: creare un punto d'incontro digitale verticale dove imprese edili, ingegneri, architetti e fornitori possono pubblicare bandi, offerte di subappalto e richieste tecniche con zero burocrazia e massima efficacia territoriale, valorizzando il lavoro di chi opera seriamente ogni giorno.
+              L'idea è semplice: creare un punto d'incontro digitale verticale dove imprese edili, ingegneri, architetti e fornitori possono pubblicare bandi, offerte di subappalto e richieste tecniche con zero burocrazia e massima efficacia territoriale.
             </p>
           </div>
         </div>
@@ -203,10 +203,13 @@
               <i class="fa-solid fa-pen"></i>
             </div>
             <div class="w-full pointer-events-none">
-              <input type="text" placeholder="Pubblica un bando di appalto/subappalto o un aggiornamento..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
-              <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
-                <span class="flex items-center gap-2 text-black px-3 py-1.5 rounded-md text-sm font-semibold">
-                  <i class="fa-solid fa-file-lines"></i> Bando Appalto / Subappalto
+              <input type="text" placeholder="Pubblica un bando di appalto o un post di presentazione..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
+              <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+                <span class="flex items-center gap-2 text-black bg-slate-100 px-3 py-1.5 rounded-md text-xs font-semibold">
+                  <i class="fa-solid fa-file-lines"></i> Bando Appalto
+                </span>
+                <span class="flex items-center gap-2 text-black bg-slate-100 px-3 py-1.5 rounded-md text-xs font-semibold">
+                  <i class="fa-solid fa-bullhorn"></i> Post / Annuncio
                 </span>
               </div>
             </div>
@@ -219,7 +222,7 @@
               <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
             </div>
             <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
-            <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun bando pubblicato. Inizia creando il tuo primo bando.</p>
+            <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o post.</p>
           </div>
         </div>
       </main>
@@ -235,51 +238,68 @@
     </footer>
   </div>
 
-  <!-- MODALE PUBBLICAZIONE BANDO -->
+  <!-- MODALE PUBBLICAZIONE (BANDO O POST) -->
   <div id="bandoModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
     <div class="card-modern w-full max-w-lg p-6 lg:p-8 bg-white relative">
       <button onclick="closeBandoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-black">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
-      <h3 class="text-xl font-bold text-slate-900 mb-1">Pubblica Bando di Appalto</h3>
-      <p class="text-xs text-slate-500 mb-6">Inserisci i dettagli tecnici per trovare professionisti o imprese.</p>
+      <h3 class="text-xl font-bold text-slate-900 mb-1">Cosa vuoi pubblicare?</h3>
+      <p class="text-xs text-slate-500 mb-6">Scegli tra un bando tecnico di subappalto o un post / annuncio.</p>
+
+      <!-- Selettore Tipo -->
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <button type="button" id="tabBandoBtn" onclick="switchPubType('bando')" class="py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-black text-white border-black">
+          <i class="fa-solid fa-file-lines mr-1.5"></i> Bando Appalto
+        </button>
+        <button type="button" id="tabPostBtn" onclick="switchPubType('post')" class="py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-white text-slate-700 border-slate-200">
+          <i class="fa-solid fa-bullhorn mr-1.5"></i> Post / Annuncio
+        </button>
+      </div>
 
       <form id="bandoForm" onsubmit="handlePublishBando(event)" class="space-y-4">
+        <input type="hidden" id="pubType" value="bando">
+        
         <div>
           <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Titolo / Oggetto</label>
-          <input type="text" id="bandoTitle" placeholder="Es. Posa cartongesso" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+          <input type="text" id="bandoTitle" placeholder="Es. Posa cartongesso o Benvenuti su Markedil" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Metratura (mq)</label>
-            <input type="text" id="bandoMq" placeholder="Es. 450 mq" class="w-full input-modern px-3.5 py-2.5 text-sm">
+
+        <div id="bandoExtraFields">
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Metratura (mq)</label>
+              <input type="text" id="bandoMq" placeholder="Es. 450 mq" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Zona / Località</label>
+              <input type="text" id="bandoLocation" placeholder="Es. Bergamo" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            </div>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Zona / Località</label>
-            <input type="text" id="bandoLocation" placeholder="Es. Bergamo" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Inizio Cantiere</label>
+              <input type="date" id="bandoDate" class="w-full input-modern px-3.5 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Pagamento</label>
+              <select id="bandoPayment" class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
+                <option value="30 / 60 gg data fattura">30 / 60 gg data fattura</option>
+                <option value="Stato Avanzamento Lavori (SAL)">Stato Avanzamento Lavori (SAL)</option>
+                <option value="Rimessa diretta">Rimessa diretta</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Inizio Cantiere</label>
-            <input type="date" id="bandoDate" class="w-full input-modern px-3.5 py-2.5 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Pagamento</label>
-            <select id="bandoPayment" class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
-              <option value="30 / 60 gg data fattura">30 / 60 gg data fattura</option>
-              <option value="Stato Avanzamento Lavori (SAL)">Stato Avanzamento Lavori (SAL)</option>
-              <option value="Rimessa diretta">Rimessa diretta</option>
-            </select>
-          </div>
-        </div>
+
         <div>
-          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Descrizione</label>
-          <textarea rows="3" id="bandoDesc" placeholder="Specifica requisiti..." class="w-full input-modern px-3.5 py-2.5 text-sm"></textarea>
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Testo / Descrizione</label>
+          <textarea rows="4" id="bandoDesc" placeholder="Specifica i dettagli..." class="w-full input-modern px-3.5 py-2.5 text-sm" required></textarea>
         </div>
+
         <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-2">
-          Pubblica Bando
+          Pubblica sulla Bacheca
         </button>
       </form>
     </div>
@@ -298,11 +318,21 @@
       </div>
     </header>
     <main class="max-w-4xl mx-auto px-4 py-8">
-      <div class="card-modern p-6 text-center max-w-md mx-auto">
-        <div id="userAvatar" class="w-20 h-20 rounded-full bg-black text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4">U</div>
-        <h2 id="userNameDisplay" class="text-lg font-bold text-slate-900 mb-1">Utente</h2>
-        <p id="userEmailDisplay" class="text-xs text-slate-500 mb-4">email@azienda.it</p>
+      <div class="card-modern p-6 text-center max-w-md mx-auto space-y-3">
+        <div id="userAvatar" class="w-20 h-20 rounded-full bg-black text-white text-2xl font-bold flex items-center justify-center mx-auto">U</div>
+        <h2 id="userNameDisplay" class="text-lg font-bold text-slate-900">Utente</h2>
+        <p id="userEmailDisplay" class="text-xs text-slate-500">email@azienda.it</p>
         <span id="userCategoryDisplay" class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full">Categoria</span>
+        
+        <!-- Valutazione Azienda nel Profilo -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-center gap-1 text-amber-400 text-sm">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <span class="text-slate-700 font-bold ml-2 text-xs">5.0 (Affidabilità Verificata)</span>
+        </div>
       </div>
     </main>
   </div>
@@ -368,26 +398,51 @@
       showView('dashboardView');
     }
 
+    function switchPubType(type) {
+      document.getElementById('pubType').value = type;
+      const bandoBtn = document.getElementById('tabBandoBtn');
+      const postBtn = document.getElementById('tabPostBtn');
+      const extraFields = document.getElementById('bandoExtraFields');
+
+      if (type === 'bando') {
+        bandoBtn.className = "py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-black text-white border-black";
+        postBtn.className = "py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-white text-slate-700 border-slate-200";
+        extraFields.style.display = 'block';
+      } else {
+        postBtn.className = "py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-black text-white border-black";
+        bandoBtn.className = "py-2.5 px-4 rounded-lg text-xs font-bold border transition-all bg-white text-slate-700 border-slate-200";
+        extraFields.style.display = 'none';
+      }
+    }
+
     async function handlePublishBando(event) {
       event.preventDefault();
+      const pubType = document.getElementById('pubType').value;
       const title = document.getElementById('bandoTitle').value;
-      const mq = document.getElementById('bandoMq').value;
-      const location = document.getElementById('bandoLocation').value;
-      const start_date = document.getElementById('bandoDate').value;
-      const payment_terms = document.getElementById('bandoPayment').value;
       const description = document.getElementById('bandoDesc').value;
-      const category = currentUser ? currentUser.category : 'impresa';
+      
+      let mq = null;
+      let location = currentUser ? currentUser.email.split('@')[1] : 'Bergamo';
+      let start_date = null;
+      let payment_terms = pubType === 'post' ? 'Post / Presentazione' : 'Rimessa diretta';
+
+      if (pubType === 'bando') {
+        mq = document.getElementById('bandoMq').value || '-';
+        location = document.getElementById('bandoLocation').value || 'Bergamo';
+        start_date = document.getElementById('bandoDate').value || '-';
+        payment_terms = document.getElementById('bandoPayment').value;
+      }
 
       const { error } = await _supabase
         .from('bandi')
-        .insert([{ title, category, mq, location, start_date, payment_terms, description }]);
+        .insert([{ title, category: pubType, mq, location, start_date, payment_terms, description }]);
 
       if (error) {
-        alert("Errore pubblicazione bando: " + error.message);
+        alert("Errore pubblicazione: " + error.message);
         return;
       }
 
-      alert("Bando pubblicato con successo!");
+      alert("Pubblicato con successo!");
       closeBandoModal();
       document.getElementById('bandoForm').reset();
       loadBandi();
@@ -404,20 +459,35 @@
 
       let html = '';
       bandi.forEach(bando => {
+        const isPost = bando.category === 'post';
+        const badgeLabel = isPost ? 'Annuncio / Presentazione' : 'Bando Appalto';
+        const badgeClass = isPost ? 'bg-slate-800 text-white' : 'bg-black text-white';
+
         html += `
           <div class="card-modern p-6 space-y-4">
             <div class="flex items-center justify-between">
-              <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Bando Appalto</span>
-              <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-location-dot"></i> ${bando.location || 'N/D'}</span>
+              <span class="${badgeClass} text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">${badgeLabel}</span>
+              <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-location-dot"></i> ${bando.location || 'Bergamo'}</span>
             </div>
             <div>
               <h3 class="font-bold text-slate-900 text-lg mb-1">${bando.title}</h3>
-              <p class="text-xs text-slate-500">${bando.description || ''}</p>
+              <p class="text-xs text-slate-600 leading-relaxed">${bando.description || ''}</p>
             </div>
-            <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs">
-              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Metratura</span> <span class="font-bold text-slate-800">${bando.mq || '-'}</span></div>
-              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Inizio</span> <span class="font-bold text-slate-800">${bando.start_date || '-'}</span></div>
-              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Pagamento</span> <span class="font-bold text-slate-800">${bando.payment_terms || '-'}</span></div>
+            ${!isPost ? `
+              <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs">
+                <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Metratura</span> <span class="font-bold text-slate-800">${bando.mq || '-'}</span></div>
+                <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Inizio</span> <span class="font-bold text-slate-800">${bando.start_date || '-'}</span></div>
+                <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Pagamento</span> <span class="font-bold text-slate-800">${bando.payment_terms || '-'}</span></div>
+              </div>
+            ` : ''}
+            <!-- Valutazione Azienda -->
+            <div class="flex items-center justify-between pt-2 text-xs text-slate-500 border-t border-slate-50">
+              <span class="flex items-center gap-1 font-medium text-slate-700">
+                <i class="fa-solid fa-circle-check text-black"></i> Affidabilità Verificata
+              </span>
+              <span class="flex items-center gap-1 text-amber-500 font-bold">
+                <i class="fa-solid fa-star"></i> 5.0
+              </span>
             </div>
           </div>
         `;
@@ -439,7 +509,10 @@
       document.getElementById(viewId).classList.remove('hidden');
       window.scrollTo(0, 0);
     }
-    function openBandoModal() { document.getElementById('bandoModal').classList.remove('hidden'); }
+    function openBandoModal() { 
+      switchPubType('bando');
+      document.getElementById('bandoModal').classList.remove('hidden'); 
+    }
     function closeBandoModal() { document.getElementById('bandoModal').classList.add('hidden'); }
 
     window.addEventListener('DOMContentLoaded', () => {
