@@ -37,10 +37,10 @@
     .btn-black:active { transform: scale(0.98); }
   </style>
 </head>
-<body class="text-slate-900 antialiased min-h-screen">
+<body class="text-slate-900 antialiased min-h-screen flex flex-col justify-between">
 
   <!-- VISTA 1: REGISTRAZIONE / LOGIN (SPLIT SCREEN) -->
-  <div id="authView" class="min-h-screen flex flex-col lg:flex-row">
+  <div id="authView" class="min-h-screen flex flex-col lg:flex-row w-full">
     <div class="lg:w-1/2 bg-black text-white flex flex-col justify-between p-10 lg:p-16 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-slate-700"></div>
@@ -59,7 +59,7 @@
         </p>
         <ul class="space-y-5 text-sm font-medium">
           <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-file-contract"></i></div>Trova e pubblica bandi di subappalto</li>
-          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-qrcode"></i></div>Codici sconto esclusivi dai magazzini edili sponsor</li>
+          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-qrcode"></i></div>Codici sconto esclusivi dai partner sponsorizzati</li>
           <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-star"></i></div>Costruisci una reputazione B2B verificata</li>
         </ul>
       </div>
@@ -108,7 +108,7 @@
   </div>
 
   <!-- VISTA 1.5: INSERIMENTO CODICE EMAIL DI CONFERMA -->
-  <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA]">
+  <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA] w-full">
     <div class="card-modern w-full max-w-md p-8 text-center">
       <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-black text-xl">
         <i class="fa-solid fa-envelope-circle-check"></i>
@@ -133,28 +133,26 @@
     </div>
   </div>
 
-  <!-- VISTA 2: BACHECA / DASHBOARD CON SEZIONE SPONSOR -->
-  <div id="dashboardView" class="hidden">
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-      <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+  <!-- VISTA 2: BACHECA / DASHBOARD -->
+  <div id="dashboardView" class="hidden w-full flex flex-col min-h-screen justify-between">
+    <div>
+      <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+          </div>
+          <div class="flex items-center gap-5">
+            <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
+              <i class="fa-regular fa-user text-lg"></i> Mio Profilo
+            </button>
+            <button class="btn-black font-medium px-5 py-2.5 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-plus"></i> Pubblica
+            </button>
+          </div>
         </div>
-        <div class="flex items-center gap-5">
-          <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
-            <i class="fa-regular fa-user text-lg"></i> Mio Profilo
-          </button>
-          <button class="btn-black font-medium px-5 py-2.5 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-plus"></i> Pubblica
-          </button>
-        </div>
-      </div>
-    </header>
+      </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <!-- COLONNA CENTRALE (FEED & POST) -->
-      <div class="md:col-span-2 space-y-6">
+      <main class="max-w-2xl mx-auto px-4 py-8 space-y-6">
         <div class="card-modern p-5">
           <div class="flex gap-4">
             <div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-400 border border-slate-200">
@@ -181,42 +179,29 @@
           <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
           <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
         </div>
-      </div>
+      </main>
+    </div>
 
-      <!-- COLONNA DESTRA: MAGAZZINI EDILI SPONSOR -->
-      <div class="md:col-span-1 space-y-6">
-        <div class="card-modern p-5 bg-gradient-to-b from-slate-900 to-black text-white">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-xs uppercase tracking-widest text-slate-400">Magazzini Sponsor</h3>
-            <span class="bg-white/10 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Partner Ufficiali</span>
-          </div>
-          <p class="text-xs text-slate-300 mb-4 leading-relaxed">Fornitori edili convenzionati sul territorio. Sbloccate sconti dedicati mostrando il QR code in cassa.</p>
-          
-          <div class="space-y-3">
-            <div class="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between">
-              <div>
-                <h4 class="font-bold text-sm">Edilizia Bergamo SpA</h4>
-                <p class="text-[10px] text-slate-400">Magazzino Centrale • Bergamo</p>
-              </div>
-              <span class="text-xs bg-white text-black font-bold px-2 py-1 rounded">Sconto Attivo</span>
-            </div>
-            
-            <div class="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between">
-              <div>
-                <h4 class="font-bold text-sm">Lombarda Materiali SRL</h4>
-                <p class="text-[10px] text-slate-400">Forniture e Laterizi • Milano</p>
-              </div>
-              <span class="text-xs bg-white text-black font-bold px-2 py-1 rounded">Sconto Attivo</span>
-            </div>
-          </div>
+    <!-- FOOTER SERIO CON IMPRESE E MAGAZZINI SPONSOR -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-12">
+      <div class="max-w-4xl mx-auto px-4 text-center">
+        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-6">Imprese Edili e Magazzini Partner Ufficiali (Sponsor)</p>
+        <div class="flex flex-wrap justify-center items-center gap-8 lg:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all">
+          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-building"></i> EDILIZIA BERGAMO SRL</div>
+          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-helmet-safety"></i> SPEDIL COSTRUZIONI</div>
+          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-warehouse"></i> LOMBARDA MATERIALI</div>
+          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-hammer"></i> ART GESSI PARTNER</div>
+        </div>
+        <div class="mt-8 text-xs text-slate-400 border-t border-slate-100 pt-4 flex flex-col sm:flex-row justify-between items-center">
+          <span>Markedil.com — Network B2B Edile</span>
+          <span>Tutti i diritti riservati © 2026</span>
         </div>
       </div>
-
-    </main>
+    </footer>
   </div>
 
   <!-- VISTA 3: PROFILO PERSONALE -->
-  <div id="profileView" class="hidden">
+  <div id="profileView" class="hidden w-full">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         <div class="flex items-center gap-4">
@@ -232,6 +217,7 @@
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      
       <div class="md:col-span-1 space-y-6">
         <div class="card-modern p-6 text-center">
           <div class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">MR</div>
