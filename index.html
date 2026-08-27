@@ -43,23 +43,21 @@
 </head>
 <body class="text-slate-900 antialiased min-h-screen">
 
-  <!-- VISTA 1: REGISTRAZIONE / LOGIN (LAYOUT SPLIT SCREEN) -->
+  <!-- VISTA 1: REGISTRAZIONE / LOGIN (SPLIT SCREEN) -->
   <div id="authView" class="min-h-screen flex flex-col lg:flex-row">
     
-    <!-- Metà Sinistra: Valore e Brand (Visibile bene su PC) -->
+    <!-- Metà Sinistra: Sfondo Nero con Logo Bianco più grande -->
     <div class="lg:w-1/2 bg-black text-white flex flex-col justify-between p-10 lg:p-16 relative overflow-hidden">
-      <!-- Decorazione di sfondo (opzionale, cerchi sfumati) -->
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-slate-700"></div>
         <div class="absolute top-1/2 -right-32 w-80 h-80 rounded-full border border-slate-700"></div>
       </div>
 
-      <!-- Logo Alto a Sinistra -->
       <div class="relative z-10 mb-12 lg:mb-0">
-        <img src="MARKEDIL.png" alt="Markedil" class="h-14 w-auto object-contain bg-white/10 p-2 rounded-md">
+        <!-- Logo Bianco ingrandito -->
+        <img src="logo-bianco.png" alt="Markedil" class="h-16 lg:h-20 w-auto object-contain">
       </div>
 
-      <!-- Testo Centrale -->
       <div class="relative z-10">
         <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
           Costruisci la tua rete.<br>
@@ -85,7 +83,6 @@
         </ul>
       </div>
 
-      <!-- Footer Sinistra -->
       <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
         Markedil.com © 2026
       </div>
@@ -94,9 +91,9 @@
     <!-- Metà Destra: Modulo di Registrazione -->
     <div class="lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-[#FAFAFA]">
       <div class="card-modern w-full max-w-md p-8 lg:p-10">
-        <!-- Logo per versione Mobile (nascosto su PC) -->
+        <!-- Logo Nero per versione Mobile -->
         <div class="lg:hidden flex justify-center mb-6">
-          <img src="MARKEDIL.png" alt="Markedil Mobile" class="h-12 w-auto object-contain">
+          <img src="logo-nero.png" alt="Markedil Mobile" class="h-12 w-auto object-contain">
         </div>
 
         <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Accedi o Registrati</h2>
@@ -135,7 +132,8 @@
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <img src="MARKEDIL.png" alt="Markedil" class="h-8 w-auto object-contain">
+          <!-- Logo Nero ingrandito per Header -->
+          <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain">
         </div>
         <div class="flex items-center gap-5">
           <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
