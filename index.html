@@ -273,7 +273,7 @@
     async function handleRegister(event) {
       event.preventDefault();
       const category = document.getElementById('regCategory').value;
-      const email = document.getElementById('regEmail').value;
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
       const password = document.getElementById('regPassword').value;
       const passwordConfirm = document.getElementById('regPasswordConfirm').value;
 
@@ -294,21 +294,19 @@
 
     async function handleLogin(event) {
       event.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-
-      // Cerca il profilo nel database per recuperare la categoria
-      const { data: profile, error } = await _supabase
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      
+      const { data: profiles, error } = await _supabase
         .from('profiles')
         .select('*')
-        .eq('email', email)
-        .single();
+        .ilike('email', email);
 
-      if (error || !profile) {
+      if (error || !profiles || profiles.length === 0) {
         alert("Utente non trovato o email non registrata nel database.");
         return;
       }
 
+      const profile = profiles[0];
       loginUserSession(profile.email, profile.category || 'impresa');
     }
 
