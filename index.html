@@ -33,31 +33,22 @@
       border-radius: 8px;
       transition: transform 0.1s ease, background 0.2s ease;
     }
-    .btn-black:hover {
-      background: #1F2937;
-    }
-    .btn-black:active {
-      transform: scale(0.98);
-    }
+    .btn-black:hover { background: #1F2937; }
+    .btn-black:active { transform: scale(0.98); }
   </style>
 </head>
 <body class="text-slate-900 antialiased min-h-screen">
 
   <!-- VISTA 1: REGISTRAZIONE / LOGIN (SPLIT SCREEN) -->
   <div id="authView" class="min-h-screen flex flex-col lg:flex-row">
-    
-    <!-- Metà Sinistra: Sfondo Nero con Logo Bianco più grande -->
     <div class="lg:w-1/2 bg-black text-white flex flex-col justify-between p-10 lg:p-16 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
         <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-slate-700"></div>
         <div class="absolute top-1/2 -right-32 w-80 h-80 rounded-full border border-slate-700"></div>
       </div>
-
       <div class="relative z-10 mb-12 lg:mb-0">
-        <!-- Logo Bianco ingrandito -->
-        <img src="logo-bianco.png" alt="Markedil" class="h-16 lg:h-20 w-auto object-contain">
+        <img src="logo-bianco.png" alt="Markedil" class="h-16 lg:h-20 w-auto object-contain" onerror="this.style.display='none'">
       </div>
-
       <div class="relative z-10">
         <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
           Costruisci la tua rete.<br>
@@ -66,43 +57,28 @@
         <p class="text-slate-400 mb-8 max-w-md leading-relaxed text-sm">
           Il primo network italiano riservato alle imprese edili, agli artigiani e ai fornitori. Entra nella rete per semplificare il tuo lavoro.
         </p>
-        
         <ul class="space-y-5 text-sm font-medium">
-          <li class="flex items-center gap-4">
-            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-file-contract"></i></div>
-            Trova e pubblica bandi di subappalto
-          </li>
-          <li class="flex items-center gap-4">
-            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-qrcode"></i></div>
-            Codici sconto esclusivi dai magazzini edili
-          </li>
-          <li class="flex items-center gap-4">
-            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-star"></i></div>
-            Costruisci una reputazione B2B verificata
-          </li>
+          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-file-contract"></i></div>Trova e pubblica bandi di subappalto</li>
+          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-qrcode"></i></div>Codici sconto esclusivi dai magazzini edili sponsor</li>
+          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-star"></i></div>Costruisci una reputazione B2B verificata</li>
         </ul>
       </div>
-
-      <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
-        Markedil.com © 2026
-      </div>
+      <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Markedil.com © 2026</div>
     </div>
 
-    <!-- Metà Destra: Modulo di Registrazione -->
+    <!-- Modulo con Doppia Password -->
     <div class="lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-[#FAFAFA]">
       <div class="card-modern w-full max-w-md p-8 lg:p-10">
-        <!-- Logo Nero per versione Mobile -->
         <div class="lg:hidden flex justify-center mb-6">
-          <img src="logo-nero.png" alt="Markedil Mobile" class="h-12 w-auto object-contain">
+          <img src="logo-nero.png" alt="Markedil Mobile" class="h-12 w-auto object-contain" onerror="this.style.display='none'">
         </div>
-
-        <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Accedi o Registrati</h2>
-        <p class="text-center text-sm text-slate-500 mb-8">Inserisci i dati della tua attività per entrare.</p>
+        <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Registrati a Markedil</h2>
+        <p class="text-center text-sm text-slate-500 mb-6">Inserisci i dati e verifica la tua email.</p>
         
-        <form onsubmit="event.preventDefault(); showView('dashboardView');" class="space-y-5">
+        <form onsubmit="event.preventDefault(); showVerifyStep();" class="space-y-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Categoria Professionale</label>
-            <select class="w-full input-modern px-4 py-3 text-sm text-slate-700">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Categoria Professionale</label>
+            <select class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
               <option value="">Seleziona...</option>
               <option value="impresa">Impresa Edile / Artigiano</option>
               <option value="ingegnere">Ingegnere</option>
@@ -112,28 +88,57 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Email</label>
-            <input type="email" placeholder="nome@azienda.it" class="w-full input-modern px-4 py-3 text-sm">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Email Aziendale o Personale</label>
+            <input type="email" placeholder="nome@azienda.it" class="w-full input-modern px-3.5 py-2.5 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Password</label>
-            <input type="password" placeholder="••••••••" class="w-full input-modern px-4 py-3 text-sm">
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
+            <input type="password" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm">
           </div>
-          <button type="submit" class="w-full btn-black font-semibold py-3.5 text-sm shadow-md mt-6">
-            Entra in Markedil
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Ripeti Password</label>
+            <input type="password" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm">
+          </div>
+          <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-4">
+            Continua e ricevi codice email
           </button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- VISTA 2: BACHECA / DASHBOARD -->
+  <!-- VISTA 1.5: INSERIMENTO CODICE EMAIL DI CONFERMA -->
+  <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA]">
+    <div class="card-modern w-full max-w-md p-8 text-center">
+      <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-black text-xl">
+        <i class="fa-solid fa-envelope-circle-check"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua email</h2>
+      <p class="text-sm text-slate-500 mb-6">Abbiamo inviato un codice di conferma a 6 cifre al tuo indirizzo email.</p>
+      
+      <form onsubmit="event.preventDefault(); showView('dashboardView');" class="space-y-5">
+        <div class="flex justify-center gap-2">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="4">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="8">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="2">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="9">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="1">
+          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="7">
+        </div>
+        <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
+          Conferma Registrazione ed Entra
+        </button>
+      </form>
+      <p class="text-xs text-slate-400 mt-4">Non hai ricevuto il codice? <a href="#" class="text-black font-semibold underline">Invia di nuovo</a></p>
+    </div>
+  </div>
+
+  <!-- VISTA 2: BACHECA / DASHBOARD CON SEZIONE SPONSOR -->
   <div id="dashboardView" class="hidden">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <!-- Logo Nero ingrandito per Header -->
-          <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain">
+          <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
         </div>
         <div class="flex items-center gap-5">
           <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
@@ -146,33 +151,67 @@
       </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 py-8">
-      <div class="card-modern p-5 mb-8">
-        <div class="flex gap-4">
-          <div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-400 border border-slate-200">
-            <i class="fa-solid fa-pen"></i>
+    <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- COLONNA CENTRALE (FEED & POST) -->
+      <div class="md:col-span-2 space-y-6">
+        <div class="card-modern p-5">
+          <div class="flex gap-4">
+            <div class="w-10 h-10 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-400 border border-slate-200">
+              <i class="fa-solid fa-pen"></i>
+            </div>
+            <div class="w-full">
+              <input type="text" placeholder="Condividi un aggiornamento o scrivi un bando..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
+              <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
+                <button class="flex items-center gap-2 text-black hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
+                  <i class="fa-solid fa-file-lines"></i> Bando
+                </button>
+                <button class="flex items-center gap-2 text-slate-500 hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
+                  <i class="fa-solid fa-camera"></i> Foto / Post
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="w-full">
-            <input type="text" placeholder="Condividi un aggiornamento o scrivi un bando..." class="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm focus:outline-none mb-4 pt-2">
-            <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
-              <button class="flex items-center gap-2 text-black hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
-                <i class="fa-solid fa-file-lines"></i> Bando
-              </button>
-              <button class="flex items-center gap-2 text-slate-500 hover:bg-slate-100 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors">
-                <i class="fa-solid fa-camera"></i> Foto / Post
-              </button>
+        </div>
+
+        <div class="card-modern p-12 text-center">
+          <div class="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-100">
+            <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
+          </div>
+          <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
+          <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
+        </div>
+      </div>
+
+      <!-- COLONNA DESTRA: MAGAZZINI EDILI SPONSOR -->
+      <div class="md:col-span-1 space-y-6">
+        <div class="card-modern p-5 bg-gradient-to-b from-slate-900 to-black text-white">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-xs uppercase tracking-widest text-slate-400">Magazzini Sponsor</h3>
+            <span class="bg-white/10 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Partner Ufficiali</span>
+          </div>
+          <p class="text-xs text-slate-300 mb-4 leading-relaxed">Fornitori edili convenzionati sul territorio. Sbloccate sconti dedicati mostrando il QR code in cassa.</p>
+          
+          <div class="space-y-3">
+            <div class="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm">Edilizia Bergamo SpA</h4>
+                <p class="text-[10px] text-slate-400">Magazzino Centrale • Bergamo</p>
+              </div>
+              <span class="text-xs bg-white text-black font-bold px-2 py-1 rounded">Sconto Attivo</span>
+            </div>
+            
+            <div class="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-sm">Lombarda Materiali SRL</h4>
+                <p class="text-[10px] text-slate-400">Forniture e Laterizi • Milano</p>
+              </div>
+              <span class="text-xs bg-white text-black font-bold px-2 py-1 rounded">Sconto Attivo</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="card-modern p-12 text-center">
-        <div class="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-100">
-          <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
-        </div>
-        <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
-        <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
-      </div>
     </main>
   </div>
 
@@ -193,17 +232,12 @@
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      
       <div class="md:col-span-1 space-y-6">
         <div class="card-modern p-6 text-center">
-          <div class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">
-            MR
-          </div>
+          <div class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">MR</div>
           <h2 class="text-lg font-bold text-slate-900 leading-tight mb-2">Marco Rossi SRL</h2>
           <span class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">Impresa Edile</span>
-          <p class="text-xs text-slate-500 flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-location-dot"></i> Milano, IT
-          </p>
+          <p class="text-xs text-slate-500 flex items-center justify-center gap-1.5"><i class="fa-solid fa-location-dot"></i> Milano, IT</p>
         </div>
 
         <div class="card-modern p-6">
@@ -212,51 +246,23 @@
             <span class="bg-slate-50 border border-slate-200 text-slate-400 text-xs font-bold px-2 py-1 rounded">0.0 / 5.0</span>
           </div>
           <p class="text-[10px] text-slate-400 mb-5 uppercase tracking-wider">Nessuna recensione</p>
-          
           <div class="space-y-4 opacity-40 grayscale">
-            <div>
-              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Rispetto Tempistiche</span> <span>0.0</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Qualità Esecuzione</span> <span>0.0</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Ordine e Sicurezza</span> <span>0.0</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Affidabilità</span> <span>0.0</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                <span>Trasparenza</span> <span>0.0</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div>
-            </div>
+            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Rispetto Tempistiche</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
+            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Qualità Esecuzione</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
+            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Ordine e Sicurezza</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
+            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Affidabilità</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
+            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Trasparenza</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
           </div>
         </div>
       </div>
 
       <div class="md:col-span-2">
         <h3 class="font-bold text-slate-900 text-lg mb-5">Le tue attività</h3>
-        
         <div class="border-2 border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-5 mb-4 relative overflow-hidden">
           <div class="flex items-center justify-between mb-4">
             <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Esempio</span>
             <span class="text-xs text-slate-400 font-medium">Anteprima</span>
           </div>
-          
           <div class="card-modern p-5 opacity-90">
             <div class="flex items-center gap-3 mb-4">
               <div class="w-10 h-10 rounded-full bg-black text-white text-xs font-bold flex items-center justify-center">MR</div>
@@ -265,22 +271,26 @@
                 <p class="text-[11px] text-slate-500 font-medium">Impresa Edile • Ora</p>
               </div>
             </div>
-            <p class="text-sm text-slate-700 mb-4 leading-relaxed">Lo spazio per i tuoi aggiornamenti, foto dal cantiere o per pubblicare i dettagli di un nuovo bando (metrature, luogo, tempistiche).</p>
-            <div class="w-full h-40 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400 transition-colors hover:bg-slate-50">
+            <p class="text-sm text-slate-700 mb-4 leading-relaxed">Lo spazio per i tuoi aggiornamenti, foto dal cantiere o per pubblicare i dettagli di un nuovo bando.</p>
+            <div class="w-full h-40 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
               <i class="fa-regular fa-image text-3xl mb-2"></i>
               <span class="text-sm font-medium">Spazio per foto/allegato</span>
             </div>
           </div>
         </div>
-        
       </div>
-
     </main>
   </div>
 
   <script>
+    function showVerifyStep() {
+      document.getElementById('authView').classList.add('hidden');
+      document.getElementById('verifyView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
     function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
+      document.getElementById('verifyView').classList.add('hidden');
       document.getElementById('dashboardView').classList.add('hidden');
       document.getElementById('profileView').classList.add('hidden');
       document.getElementById(viewId).classList.remove('hidden');
