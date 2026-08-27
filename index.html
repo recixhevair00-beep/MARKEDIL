@@ -96,25 +96,10 @@
             <input type="password" id="regPasswordConfirm" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
           <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-4">
-            Registrati e ricevi email di conferma
+            Registrati e Accedi Subito
           </button>
         </form>
       </div>
-    </div>
-  </div>
-
-  <!-- VISTA 1.5: ATTESA CONFERMA EMAIL -->
-  <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA] w-full">
-    <div class="card-modern w-full max-w-md p-8 text-center">
-      <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-black text-xl">
-        <i class="fa-solid fa-envelope-circle-check"></i>
-      </div>
-      <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua casella email</h2>
-      <p class="text-sm text-slate-500 mb-6">Ti abbiamo inviato un'email con il link di conferma ufficiale. Clicca sul link nell'email per attivare il profilo ed entrare nella bacheca.</p>
-      
-      <button onclick="showView('authView')" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
-        Torna al Login
-      </button>
     </div>
   </div>
 
@@ -269,6 +254,7 @@
         return;
       }
 
+      // Registrazione utente senza attesa email
       const { data: authData, error: authError } = await _supabase.auth.signUp({
         email: email,
         password: password,
@@ -280,11 +266,17 @@
         return;
       }
 
+      // Salvataggio nel database profiles
       await _supabase.from('profiles').insert([{ email: email, category: category }]);
 
-      document.getElementById('authView').classList.add('hidden');
-      document.getElementById('verifyView').classList.remove('hidden');
-      window.scrollTo(0, 0);
+      // Imposta utente corrente e passa subito alla dashboard
+      currentUser = { email: email, category: category };
+      document.getElementById('userEmailDisplay').innerText = email;
+      document.getElementById('userNameDisplay').innerText = email.split('@')[0].toUpperCase();
+      document.getElementById('userCategoryDisplay').innerText = category.toUpperCase();
+      document.getElementById('userAvatar').innerText = email.substring(0, 2).toUpperCase();
+
+      showView('dashboardView');
     }
 
     async function handlePublishBando(event) {
@@ -352,7 +344,6 @@
 
     function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
-      document.getElementById('verifyView').classList.add('hidden');
       document.getElementById('dashboardView').classList.add('hidden');
       document.getElementById('profileView').classList.add('hidden');
       document.getElementById(viewId).classList.remove('hidden');
