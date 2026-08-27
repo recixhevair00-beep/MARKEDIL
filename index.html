@@ -6,7 +6,6 @@
   <title>Markedil.com - Network Professionale Edile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <!-- Font professionale -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body { font-family: 'Inter', sans-serif; }
@@ -14,23 +13,17 @@
 </head>
 <body class="bg-[#F8FAFC] text-slate-800 antialiased min-h-screen">
 
-  <!-- VISTA 1: REGISTRAZIONE / LOGIN (VISIBILE ALL'AVVIO) -->
+  <!-- VISTA 1: REGISTRAZIONE / LOGIN -->
   <div id="authView" class="min-h-screen flex flex-col items-center justify-center px-4">
-    
-    <!-- Logo per Login -->
     <div class="mb-8 text-center flex flex-col items-center">
-      <div class="w-14 h-14 rounded-md bg-[#1E3A8A] flex items-center justify-center text-white font-black text-2xl shadow-md border-2 border-[#1E40AF] mb-4">
-        MD
-      </div>
+      <div class="w-14 h-14 rounded-md bg-[#1E3A8A] flex items-center justify-center text-white font-black text-2xl shadow-md border-2 border-[#1E40AF] mb-4">MD</div>
       <h1 class="font-bold text-3xl tracking-tight text-slate-900">Markedil<span class="text-[#1E3A8A]">.com</span></h1>
       <p class="text-xs text-slate-500 mt-2 font-semibold uppercase tracking-widest">Network Professionale Edile</p>
     </div>
 
-    <!-- Card di Accesso -->
     <div class="bg-white rounded-lg shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 w-full max-w-md p-8">
       <h2 class="text-xl font-semibold text-slate-900 mb-6 border-b border-slate-100 pb-4">Accedi o Registrati</h2>
-      
-      <form onsubmit="event.preventDefault(); enterDashboard();" class="space-y-5">
+      <form onsubmit="event.preventDefault(); showView('dashboardView');" class="space-y-5">
         <div>
           <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Categoria Professionale</label>
           <select class="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-[#1E3A8A] focus:ring-1 focus:ring-[#1E3A8A] transition-all text-slate-700">
@@ -42,17 +35,14 @@
             <option value="privato">Privato / Committente</option>
           </select>
         </div>
-        
         <div>
-          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Email Aziendale o Personale</label>
-          <input type="email" placeholder="nome@azienda.it" class="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-[#1E3A8A] focus:ring-1 focus:ring-[#1E3A8A] transition-all">
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Email</label>
+          <input type="email" placeholder="nome@azienda.it" class="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-[#1E3A8A] focus:ring-1 focus:ring-[#1E3A8A]">
         </div>
-
         <div>
           <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Password</label>
-          <input type="password" placeholder="••••••••" class="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-[#1E3A8A] focus:ring-1 focus:ring-[#1E3A8A] transition-all">
+          <input type="password" placeholder="••••••••" class="w-full bg-white border border-slate-300 rounded-md px-3 py-2.5 text-sm focus:outline-none focus:border-[#1E3A8A] focus:ring-1 focus:ring-[#1E3A8A]">
         </div>
-
         <button type="submit" class="w-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-semibold py-3 rounded-md text-sm transition-colors shadow-sm mt-4">
           Entra in Markedil
         </button>
@@ -60,9 +50,8 @@
     </div>
   </div>
 
-  <!-- VISTA 2: BACHECA / DASHBOARD (NASCOSTA ALL'AVVIO) -->
+  <!-- VISTA 2: BACHECA / DASHBOARD -->
   <div id="dashboardView" class="hidden">
-    
     <!-- HEADER -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -70,9 +59,10 @@
           <div class="w-9 h-9 rounded-md bg-[#1E3A8A] flex items-center justify-center text-white font-bold tracking-tighter text-sm shadow-sm border border-[#1E40AF]">MD</div>
           <span class="font-bold text-lg tracking-tight text-slate-900">Markedil</span>
         </div>
-        
-        <div class="flex items-center gap-5">
-          <button onclick="logout()" class="text-sm text-slate-500 hover:text-slate-800 font-medium transition-colors">Esci</button>
+        <div class="flex items-center gap-4">
+          <button onclick="showView('profileView')" class="text-slate-600 hover:text-[#1E3A8A] font-medium text-sm transition-colors flex items-center gap-2">
+            <i class="fa-regular fa-circle-user text-lg"></i> Mio Profilo
+          </button>
           <button class="bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium px-4 py-2 rounded-md text-sm transition-colors shadow-sm flex items-center gap-2">
             <i class="fa-solid fa-plus"></i> Pubblica
           </button>
@@ -80,9 +70,7 @@
       </div>
     </header>
 
-    <!-- FEED PRINCIPALE -->
     <main class="max-w-2xl mx-auto px-4 py-8">
-      
       <!-- BOX PUBBLICAZIONE -->
       <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-5 mb-8">
         <div class="flex gap-4">
@@ -103,7 +91,6 @@
         </div>
       </div>
 
-      <!-- FEED VUOTO -->
       <div class="bg-white rounded-lg border border-slate-200 p-10 text-center shadow-sm">
         <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
           <i class="fa-solid fa-clipboard-list text-slate-400 text-xl"></i>
@@ -111,23 +98,119 @@
         <h3 class="text-slate-900 font-semibold mb-1">La bacheca è pronta</h3>
         <p class="text-slate-500 text-sm">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o aggiornamento cantiere.</p>
       </div>
+    </main>
+  </div>
+
+  <!-- VISTA 3: PROFILO PERSONALE UTENTE -->
+  <div id="profileView" class="hidden">
+    <!-- HEADER PROFILO -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+      <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="showView('dashboardView')" class="text-slate-500 hover:text-slate-800 mr-2">
+            <i class="fa-solid fa-arrow-left text-lg"></i>
+          </button>
+          <span class="font-bold text-lg tracking-tight text-slate-900">Il Mio Profilo</span>
+        </div>
+        <button onclick="showView('authView')" class="text-sm text-slate-500 hover:text-red-600 font-medium transition-colors">
+          <i class="fa-solid fa-right-from-bracket"></i> Esci
+        </button>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- COLONNA SINISTRA: DATI PROFILO E RECENSIONI -->
+      <div class="md:col-span-1 space-y-6">
+        
+        <!-- Dati Anagrafici -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-[#1E3A8A] text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-blue-50">
+            AA
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 leading-tight mb-1">ABDELSALAM ARAFA SAYED MOHAMED HASSAN</h2>
+          <p class="text-sm font-medium text-[#1E3A8A] mb-3">Impresa Edile (SRL)</p>
+          <p class="text-xs text-slate-500 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-location-dot"></i> Bergamo, IT
+          </p>
+        </div>
+
+        <!-- Box Recensioni / Metriche B2B -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wide">Indice di Affidabilità</h3>
+            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">4.9 / 5.0</span>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Criterio 1 -->
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Rispetto Tempistiche</span> <span>5.0</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-[#1E3A8A] h-1.5 rounded-full" style="width: 100%"></div></div>
+            </div>
+            <!-- Criterio 2 -->
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Qualità dell'Esecuzione</span> <span>4.8</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-[#1E3A8A] h-1.5 rounded-full" style="width: 95%"></div></div>
+            </div>
+            <!-- Criterio 3 -->
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Ordine e Sicurezza</span> <span>4.9</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-[#1E3A8A] h-1.5 rounded-full" style="width: 98%"></div></div>
+            </div>
+            <!-- Criterio 4 -->
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Affidabilità e Comunicazione</span> <span>5.0</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-[#1E3A8A] h-1.5 rounded-full" style="width: 100%"></div></div>
+            </div>
+            <!-- Criterio 5 -->
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Trasparenza Economica</span> <span>4.8</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-[#1E3A8A] h-1.5 rounded-full" style="width: 95%"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLONNA DESTRA: STORICO POST E BANDI -->
+      <div class="md:col-span-2">
+        <h3 class="font-bold text-slate-900 text-lg mb-4">I tuoi post e cantieri</h3>
+        
+        <!-- Post d'esempio dell'utente -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-5 mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="bg-blue-50 text-[#1E3A8A] text-xs font-semibold px-2.5 py-1 rounded border border-blue-100">Aggiornamento Cantiere</span>
+            <span class="text-xs text-slate-400">3 giorni fa</span>
+          </div>
+          <p class="text-sm text-slate-700 mb-4">Completata posa del cartongesso barriera vapore e isolamento termico. Pronti per la stuccatura. Ottimo lavoro della squadra.</p>
+          <div class="w-full h-40 bg-slate-100 rounded-md border border-slate-200 flex items-center justify-center text-slate-400 text-sm">
+            [ Immagine Cantiere ]
+          </div>
+        </div>
+      </div>
 
     </main>
   </div>
 
-  <!-- SCRIPT JAVASCRIPT PER CAMBIARE VISTA -->
+  <!-- SCRIPT NAVIGAZIONE -->
   <script>
-    function enterDashboard() {
-      // Nasconde il login e mostra la bacheca
+    function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
-      document.getElementById('dashboardView').classList.remove('hidden');
-      window.scrollTo(0, 0);
-    }
-    
-    function logout() {
-      // Torna al login
       document.getElementById('dashboardView').classList.add('hidden');
-      document.getElementById('authView').classList.remove('hidden');
+      document.getElementById('profileView').classList.add('hidden');
+      
+      document.getElementById(viewId).classList.remove('hidden');
       window.scrollTo(0, 0);
     }
   </script>
