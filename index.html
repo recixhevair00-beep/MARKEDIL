@@ -41,7 +41,7 @@
 </head>
 <body class="text-slate-900 antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- VISTA 1: REGISTRAZIONE / LOGIN (SPLIT SCREEN) -->
+  <!-- VISTA 1: REGISTRAZIONE -->
   <div id="authView" class="min-h-screen flex flex-col lg:flex-row w-full">
     <div class="lg:w-1/2 bg-black text-white flex flex-col justify-between p-10 lg:p-16 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
@@ -49,7 +49,7 @@
         <div class="absolute top-1/2 -right-32 w-80 h-80 rounded-full border border-slate-700"></div>
       </div>
       <div class="relative z-10 mb-12 lg:mb-0">
-        <img src="logo-bianco.png" alt="Markedil" class="h-16 lg:h-20 w-auto object-contain" onerror="this.style.display='none'">
+        <h1 class="text-2xl font-bold tracking-tight">Markedil.com</h1>
       </div>
       <div class="relative z-10">
         <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
@@ -59,11 +59,6 @@
         <p class="text-slate-400 mb-8 max-w-md leading-relaxed text-sm">
           Il primo network italiano per la gestione di appalti, subappalti e collaborazioni tra committenti, imprese, studi tecnici e fornitori.
         </p>
-        <ul class="space-y-5 text-sm font-medium">
-          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-file-contract"></i></div>Pubblica o ricevi bandi di appalto e subappalto</li>
-          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-users-gear"></i></div>Connetti studi tecnici, ingegneri, architetti e imprese</li>
-          <li class="flex items-center gap-4"><div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-house-user"></i></div>Gestione diretta per committenti privati e uffici</li>
-        </ul>
       </div>
       <div class="relative z-10 mt-12 lg:mt-0 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Markedil.com © 2026</div>
     </div>
@@ -71,9 +66,6 @@
     <!-- Modulo di Registrazione -->
     <div class="lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-[#FAFAFA]">
       <div class="card-modern w-full max-w-md p-8 lg:p-10">
-        <div class="lg:hidden flex justify-center mb-6">
-          <img src="logo-nero.png" alt="Markedil Mobile" class="h-12 w-auto object-contain" onerror="this.style.display='none'">
-        </div>
         <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Registrati a Markedil</h2>
         <p class="text-center text-sm text-slate-500 mb-6">Inserisci i dati per creare il tuo account professionale.</p>
         
@@ -118,10 +110,10 @@
         <i class="fa-solid fa-envelope-circle-check"></i>
       </div>
       <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua casella email</h2>
-      <p class="text-sm text-slate-500 mb-6">Ti abbiamo inviato un link di conferma ufficiale all'indirizzo inserito. Clicca sul link nell'email per attivare il profilo ed entrare nella bacheca.</p>
+      <p class="text-sm text-slate-500 mb-6">Ti abbiamo inviato un'email con il link di conferma ufficiale. Clicca sul link nell'email per attivare il profilo ed entrare nella bacheca.</p>
       
       <button onclick="showView('authView')" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
-        Torna al Login / Registrazione
+        Torna al Login
       </button>
     </div>
   </div>
@@ -131,9 +123,7 @@
     <div>
       <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <img src="logo-nero.png" alt="Markedil" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
-          </div>
+          <div class="font-bold text-lg tracking-tight">Markedil.com</div>
           <div class="flex items-center gap-5">
             <button onclick="showView('profileView')" class="text-slate-500 hover:text-black font-medium text-sm transition-colors flex items-center gap-2">
               <i class="fa-regular fa-user text-lg"></i> Mio Profilo
@@ -157,40 +147,28 @@
                 <span class="flex items-center gap-2 text-black px-3 py-1.5 rounded-md text-sm font-semibold">
                   <i class="fa-solid fa-file-lines"></i> Bando Appalto / Subappalto
                 </span>
-                <span class="flex items-center gap-2 text-slate-500 px-3 py-1.5 rounded-md text-sm font-semibold">
-                  <i class="fa-solid fa-camera"></i> Foto / Post
-                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- LISTA DINAMICA DEI BANDI DAL DATABASE -->
+        <!-- LISTA DINAMICA DEI BANDI -->
         <div id="bandiContainer" class="space-y-4">
           <div class="card-modern p-12 text-center" id="emptyBandiState">
             <div class="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-100">
               <i class="fa-solid fa-layer-group text-slate-300 text-2xl"></i>
             </div>
             <h3 class="text-slate-900 font-bold text-lg mb-2">Bacheca pronta</h3>
-            <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun contenuto pubblicato. Inizia creando il tuo primo bando o condividendo un post.</p>
+            <p class="text-slate-500 text-sm max-w-sm mx-auto">Nessun bando pubblicato. Inizia creando il tuo primo bando.</p>
           </div>
         </div>
       </main>
     </div>
 
-    <!-- FOOTER CON SPONSOR / PARTNER DI ESEMPIO -->
+    <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-8 mt-12">
       <div class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-6">Partner, Studi Tecnici e Uffici Sponsor Ufficiali</p>
-        <div class="flex flex-wrap justify-center items-center gap-8 lg:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all">
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-building"></i> EDILIZIA ESEMPIO S.R.L.</div>
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-compass-drafting"></i> STUDIO ARCHITETTURA DEMO</div>
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-laptop-code"></i> INGEGNERIA ASSOCIATA ESEMPIO</div>
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-calculator"></i> STUDIO COMMERCIALISTA E PAGHE</div>
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-shield-halved"></i> UFFICIO SICUREZZA E PREVENZIONE</div>
-          <div class="font-bold text-slate-700 tracking-tighter text-sm flex items-center gap-1.5"><i class="fa-solid fa-warehouse"></i> MAGAZZINO PARTNER S.R.L.</div>
-        </div>
-        <div class="mt-8 text-xs text-slate-400 border-t border-slate-100 pt-4 flex flex-col sm:flex-row justify-between items-center">
+        <div class="text-xs text-slate-400 pt-2 flex flex-col sm:flex-row justify-between items-center">
           <span>Markedil.com — Network B2B Edile e Tecnico</span>
           <span>Tutti i diritti riservati © 2026</span>
         </div>
@@ -198,7 +176,7 @@
     </footer>
   </div>
 
-  <!-- MODALE INTERATTIVO PER PUBBLICAZIONE BANDO -->
+  <!-- MODALE PUBBLICAZIONE BANDO -->
   <div id="bandoModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
     <div class="card-modern w-full max-w-lg p-6 lg:p-8 bg-white relative">
       <button onclick="closeBandoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-black">
@@ -206,14 +184,13 @@
       </button>
 
       <h3 class="text-xl font-bold text-slate-900 mb-1">Pubblica Bando di Appalto</h3>
-      <p class="text-xs text-slate-500 mb-6">Inserisci i dettagli tecnici per trovare professionisti o imprese qualificate.</p>
+      <p class="text-xs text-slate-500 mb-6">Inserisci i dettagli tecnici per trovare professionisti o imprese.</p>
 
       <form id="bandoForm" onsubmit="handlePublishBando(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Titolo / Oggetto dell'Appalto</label>
-          <input type="text" id="bandoTitle" placeholder="Es. Posa cartongesso e isolamento termico" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Titolo / Oggetto</label>
+          <input type="text" id="bandoTitle" placeholder="Es. Posa cartongesso" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
         </div>
-
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Metratura (mq)</label>
@@ -221,96 +198,57 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Zona / Località</label>
-            <input type="text" id="bandoLocation" placeholder="Es. Bergamo / Milano Nord" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
+            <input type="text" id="bandoLocation" placeholder="Es. Bergamo" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
         </div>
-
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Data Inizio Cantiere</label>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Inizio Cantiere</label>
             <input type="date" id="bandoDate" class="w-full input-modern px-3.5 py-2.5 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Termini di Pagamento</label>
+            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Pagamento</label>
             <select id="bandoPayment" class="w-full input-modern px-3.5 py-2.5 text-sm text-slate-700">
               <option value="30 / 60 gg data fattura">30 / 60 gg data fattura</option>
               <option value="Stato Avanzamento Lavori (SAL)">Stato Avanzamento Lavori (SAL)</option>
               <option value="Rimessa diretta">Rimessa diretta</option>
-              <option value="Concordato in trattativa">Concordato in trattativa</option>
             </select>
           </div>
         </div>
-
         <div>
-          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Descrizione Dettagliata</label>
-          <textarea rows="3" id="bandoDesc" placeholder="Specifica i requisiti tecnici, capitolato o richieste particolari..." class="w-full input-modern px-3.5 py-2.5 text-sm"></textarea>
+          <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Descrizione</label>
+          <textarea rows="3" id="bandoDesc" placeholder="Specifica requisiti..." class="w-full input-modern px-3.5 py-2.5 text-sm"></textarea>
         </div>
-
         <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-2">
-          Pubblica Ufficialmente Bando
+          Pubblica Bando
         </button>
       </form>
     </div>
   </div>
 
-  <!-- VISTA 3: PROFILO PERSONALE -->
+  <!-- VISTA 3: PROFILO -->
   <div id="profileView" class="hidden w-full">
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <button onclick="showView('dashboardView')" class="text-slate-400 hover:text-black transition-colors">
-            <i class="fa-solid fa-arrow-left text-lg"></i>
-          </button>
-          <span class="font-bold text-lg tracking-tight text-slate-900">Il Mio Profilo</span>
-        </div>
-        <button onclick="handleLogout()" class="text-sm text-slate-500 hover:text-red-500 font-medium transition-colors">
+        <button onclick="showView('dashboardView')" class="text-slate-400 hover:text-black">
+          <i class="fa-solid fa-arrow-left text-lg"></i>
+        </button>
+        <button onclick="handleLogout()" class="text-sm text-slate-500 hover:text-red-500 font-medium">
           <i class="fa-solid fa-right-from-bracket"></i> Esci
         </button>
       </div>
     </header>
-
-    <main class="max-w-4xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-      
-      <div class="md:col-span-1 space-y-6">
-        <div class="card-modern p-6 text-center">
-          <div id="userAvatar" class="w-24 h-24 rounded-full bg-black text-white text-3xl font-bold flex items-center justify-center mx-auto mb-4 border-4 border-slate-100">MR</div>
-          <h2 id="userNameDisplay" class="text-lg font-bold text-slate-900 leading-tight mb-2">Utente Markedil</h2>
-          <span id="userCategoryDisplay" class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full mb-4">Professionista</span>
-          <p class="text-xs text-slate-500 flex items-center justify-center gap-1.5"><i class="fa-solid fa-location-dot"></i> Italia</p>
-        </div>
-
-        <div class="card-modern p-6">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-bold text-slate-900 text-xs uppercase tracking-widest">Affidabilità</h3>
-            <span class="bg-slate-50 border border-slate-200 text-slate-400 text-xs font-bold px-2 py-1 rounded">0.0 / 5.0</span>
-          </div>
-          <p class="text-[10px] text-slate-400 mb-5 uppercase tracking-wider">Nessuna recensione</p>
-          <div class="space-y-4 opacity-40 grayscale">
-            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Rispetto Tempistiche</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
-            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Qualità Esecuzione</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
-            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Ordine e Sicurezza</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
-            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Affidabilità</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
-            <div><div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5"><span>Trasparenza</span> <span>0.0</span></div><div class="w-full bg-slate-100 rounded-full h-1"><div class="bg-black h-1 rounded-full" style="width: 0%"></div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="md:col-span-2">
-        <h3 class="font-bold text-slate-900 text-lg mb-5">Le tue attività</h3>
-        <div class="border-2 border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-5 mb-4 relative overflow-hidden">
-          <div class="flex items-center justify-between mb-4">
-            <span class="bg-black text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-md">Account Connesso</span>
-            <span id="userEmailDisplay" class="text-xs text-slate-500 font-medium">email@azienda.it</span>
-          </div>
-          <div class="card-modern p-5">
-            <p class="text-sm text-slate-700 leading-relaxed">Il tuo account è autenticato in modo sicuro tramite Supabase Auth e collegato al database cloud di Markedil.com.</p>
-          </div>
-        </div>
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <div class="card-modern p-6 text-center max-w-md mx-auto">
+        <div id="userAvatar" class="w-20 h-20 rounded-full bg-black text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4">U</div>
+        <h2 id="userNameDisplay" class="text-lg font-bold text-slate-900 mb-1">Utente</h2>
+        <p id="userEmailDisplay" class="text-xs text-slate-500 mb-4">email@azienda.it</p>
+        <span id="userCategoryDisplay" class="inline-block bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full">Categoria</span>
       </div>
     </main>
   </div>
 
-  <!-- SCRIPT DI CONFIGURAZIONE E SUPABASE AUTH -->
+  <!-- SCRIPT -->
   <script>
     const SUPABASE_URL = "https://nqrceejgeskpwtwceily.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable__VCJUmPmC_sw70hfxFw9KA_ap15YTYz"; 
@@ -331,13 +269,10 @@
         return;
       }
 
-      // 1. Registrazione ufficiale con Supabase Auth (manda l'email SMTP)
       const { data: authData, error: authError } = await _supabase.auth.signUp({
         email: email,
         password: password,
-        options: {
-          data: { category: category }
-        }
+        options: { data: { category: category } }
       });
 
       if (authError) {
@@ -345,12 +280,8 @@
         return;
       }
 
-      // 2. Salvataggio parallelo nella tabella profiles
-      await _supabase
-        .from('profiles')
-        .insert([{ email: email, category: category }]);
+      await _supabase.from('profiles').insert([{ email: email, category: category }]);
 
-      // Mostra la schermata di attesa conferma email
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('verifyView').classList.remove('hidden');
       window.scrollTo(0, 0);
@@ -371,11 +302,11 @@
         .insert([{ title, category, mq, location, start_date, payment_terms, description }]);
 
       if (error) {
-        alert("Errore durante la pubblicazione del bando: " + error.message);
+        alert("Errore pubblicazione bando: " + error.message);
         return;
       }
 
-      alert("Bando pubblicato con successo nel database!");
+      alert("Bando pubblicato con successo!");
       closeBandoModal();
       document.getElementById('bandoForm').reset();
       loadBandi();
@@ -388,10 +319,7 @@
         .order('id', { ascending: false });
 
       const container = document.getElementById('bandiContainer');
-      
-      if (error || !bandi || bandi.length === 0) {
-        return;
-      }
+      if (error || !bandi || bandi.length === 0) return;
 
       let html = '';
       bandi.forEach(bando => {
@@ -403,18 +331,12 @@
             </div>
             <div>
               <h3 class="font-bold text-slate-900 text-lg mb-1">${bando.title}</h3>
-              <p class="text-xs text-slate-500">${bando.description || 'Nessuna descrizione aggiuntiva.'}</p>
+              <p class="text-xs text-slate-500">${bando.description || ''}</p>
             </div>
             <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 text-xs">
               <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Metratura</span> <span class="font-bold text-slate-800">${bando.mq || '-'}</span></div>
-              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Inizio Cantiere</span> <span class="font-bold text-slate-800">${bando.start_date || '-'}</span></div>
+              <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Inizio</span> <span class="font-bold text-slate-800">${bando.start_date || '-'}</span></div>
               <div><span class="block text-slate-400 font-semibold text-[10px] uppercase">Pagamento</span> <span class="font-bold text-slate-800">${bando.payment_terms || '-'}</span></div>
-            </div>
-            <div class="flex justify-between items-center pt-1">
-              <span class="text-xs text-slate-500 font-medium">Categoria: ${bando.category}</span>
-              <button onclick="alert('Contatto inviato al committente')" class="btn-black text-xs font-semibold px-4 py-2">
-                Candidatevi / Offerta
-              </button>
             </div>
           </div>
         `;
@@ -436,14 +358,9 @@
       document.getElementById(viewId).classList.remove('hidden');
       window.scrollTo(0, 0);
     }
-    function openBandoModal() {
-      document.getElementById('bandoModal').classList.remove('hidden');
-    }
-    function closeBandoModal() {
-      document.getElementById('bandoModal').classList.add('hidden');
-    }
+    function openBandoModal() { document.getElementById('bandoModal').classList.remove('hidden'); }
+    function closeBandoModal() { document.getElementById('bandoModal').classList.add('hidden'); }
 
-    // Controlla se l'utente è già loggato all'avvio
     window.addEventListener('DOMContentLoaded', async () => {
       loadBandi();
       const { data: { session } } = await _supabase.auth.getSession();
@@ -460,6 +377,5 @@
       }
     });
   </script>
-
 </body>
 </html>
