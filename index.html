@@ -75,7 +75,7 @@
           <img src="logo-nero.png" alt="Markedil Mobile" class="h-12 w-auto object-contain" onerror="this.style.display='none'">
         </div>
         <h2 class="text-2xl font-bold text-slate-900 mb-2 text-center">Registrati a Markedil</h2>
-        <p class="text-center text-sm text-slate-500 mb-6">Inserisci i dati e verifica la tua email.</p>
+        <p class="text-center text-sm text-slate-500 mb-6">Inserisci i dati per creare il tuo account professionale.</p>
         
         <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4">
           <div>
@@ -104,36 +104,25 @@
             <input type="password" id="regPasswordConfirm" placeholder="••••••••" class="w-full input-modern px-3.5 py-2.5 text-sm" required>
           </div>
           <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md mt-4">
-            Continua e ricevi codice email
+            Registrati e ricevi email di conferma
           </button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- VISTA 1.5: INSERIMENTO CODICE EMAIL DI CONFERMA -->
+  <!-- VISTA 1.5: ATTESA CONFERMA EMAIL -->
   <div id="verifyView" class="min-h-screen hidden flex flex-col items-center justify-center px-4 bg-[#FAFAFA] w-full">
     <div class="card-modern w-full max-w-md p-8 text-center">
       <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-black text-xl">
         <i class="fa-solid fa-envelope-circle-check"></i>
       </div>
-      <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua email</h2>
-      <p class="text-sm text-slate-500 mb-6">Abbiamo inviato un codice di conferma a 6 cifre al tuo indirizzo email.</p>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">Controlla la tua casella email</h2>
+      <p class="text-sm text-slate-500 mb-6">Ti abbiamo inviato un link di conferma ufficiale all'indirizzo inserito. Clicca sul link nell'email per attivare il profilo ed entrare nella bacheca.</p>
       
-      <form onsubmit="event.preventDefault(); showView('dashboardView'); loadBandi();" class="space-y-5">
-        <div class="flex justify-center gap-2">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="4">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="8">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="2">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="9">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="1">
-          <input type="text" maxlength="1" class="w-12 h-12 text-center text-xl font-bold input-modern" value="7">
-        </div>
-        <button type="submit" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
-          Conferma Registrazione ed Entra
-        </button>
-      </form>
-      <p class="text-xs text-slate-400 mt-4">Non hai ricevuto il codice? <a href="#" class="text-black font-semibold underline">Invia di nuovo</a></p>
+      <button onclick="showView('authView')" class="w-full btn-black font-semibold py-3 text-sm shadow-md">
+        Torna al Login / Registrazione
+      </button>
     </div>
   </div>
 
@@ -274,7 +263,7 @@
           </button>
           <span class="font-bold text-lg tracking-tight text-slate-900">Il Mio Profilo</span>
         </div>
-        <button onclick="showView('authView')" class="text-sm text-slate-500 hover:text-red-500 font-medium transition-colors">
+        <button onclick="handleLogout()" class="text-sm text-slate-500 hover:text-red-500 font-medium transition-colors">
           <i class="fa-solid fa-right-from-bracket"></i> Esci
         </button>
       </div>
@@ -314,20 +303,18 @@
             <span id="userEmailDisplay" class="text-xs text-slate-500 font-medium">email@azienda.it</span>
           </div>
           <div class="card-modern p-5">
-            <p class="text-sm text-slate-700 leading-relaxed">Il tuo account è regolarmente registrato e collegato al database cloud di Markedil.com.</p>
+            <p class="text-sm text-slate-700 leading-relaxed">Il tuo account è autenticato in modo sicuro tramite Supabase Auth e collegato al database cloud di Markedil.com.</p>
           </div>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- SCRIPT DI CONFIGURAZIONE E COLLEGAMENTO DATABASE SUPABASE -->
+  <!-- SCRIPT DI CONFIGURAZIONE E SUPABASE AUTH -->
   <script>
-    // Configurazione Supabase
     const SUPABASE_URL = "https://nqrceejgeskpwtwceily.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable__VCJUmPmC_sw70hfxFw9KA_ap15YTYz"; 
     
-    // Inizializzazione client Supabase
     const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
@@ -344,26 +331,26 @@
         return;
       }
 
-      // Salvataggio nel database tabella profiles
-      const { data, error } = await _supabase
-        .from('profiles')
-        .insert([{ email: email, category: category }]);
+      // 1. Registrazione ufficiale con Supabase Auth (manda l'email SMTP)
+      const { data: authData, error: authError } = await _supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: { category: category }
+        }
+      });
 
-      if (error) {
-        console.error("Errore di registrazione:", error.message);
-        alert("Errore durante la registrazione nel database: " + error.message);
+      if (authError) {
+        alert("Errore durante la registrazione: " + authError.message);
         return;
       }
 
-      currentUser = { email, category };
-      
-      // Aggiorna la vista profilo con i dati reali
-      document.getElementById('userEmailDisplay').innerText = email;
-      document.getElementById('userNameDisplay').innerText = email.split('@')[0].toUpperCase();
-      document.getElementById('userCategoryDisplay').innerText = category.toUpperCase();
-      document.getElementById('userAvatar').innerText = email.substring(0, 2).toUpperCase();
+      // 2. Salvataggio parallelo nella tabella profiles
+      await _supabase
+        .from('profiles')
+        .insert([{ email: email, category: category }]);
 
-      // Passa alla verifica email
+      // Mostra la schermata di attesa conferma email
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('verifyView').classList.remove('hidden');
       window.scrollTo(0, 0);
@@ -379,13 +366,11 @@
       const description = document.getElementById('bandoDesc').value;
       const category = currentUser ? currentUser.category : 'impresa';
 
-      // Salvataggio bando nel database tabella bandi
-      const { data, error } = await _supabase
+      const { error } = await _supabase
         .from('bandi')
         .insert([{ title, category, mq, location, start_date, payment_terms, description }]);
 
       if (error) {
-        console.error("Errore pubblicazione bando:", error.message);
         alert("Errore durante la pubblicazione del bando: " + error.message);
         return;
       }
@@ -405,7 +390,7 @@
       const container = document.getElementById('bandiContainer');
       
       if (error || !bandi || bandi.length === 0) {
-        return; // Lascia lo stato vuoto se non ci sono bandi
+        return;
       }
 
       let html = '';
@@ -437,6 +422,12 @@
       container.innerHTML = html;
     }
 
+    async function handleLogout() {
+      await _supabase.auth.signOut();
+      currentUser = null;
+      showView('authView');
+    }
+
     function showView(viewId) {
       document.getElementById('authView').classList.add('hidden');
       document.getElementById('verifyView').classList.add('hidden');
@@ -452,9 +443,21 @@
       document.getElementById('bandoModal').classList.add('hidden');
     }
 
-    // Carica i bandi all'avvio se si passa alla dashboard
-    window.addEventListener('DOMContentLoaded', () => {
+    // Controlla se l'utente è già loggato all'avvio
+    window.addEventListener('DOMContentLoaded', async () => {
       loadBandi();
+      const { data: { session } } = await _supabase.auth.getSession();
+      if (session) {
+        currentUser = { 
+          email: session.user.email, 
+          category: session.user.user_metadata?.category || 'impresa' 
+        };
+        document.getElementById('userEmailDisplay').innerText = currentUser.email;
+        document.getElementById('userNameDisplay').innerText = currentUser.email.split('@')[0].toUpperCase();
+        document.getElementById('userCategoryDisplay').innerText = currentUser.category.toUpperCase();
+        document.getElementById('userAvatar').innerText = currentUser.email.substring(0, 2).toUpperCase();
+        showView('dashboardView');
+      }
     });
   </script>
 
